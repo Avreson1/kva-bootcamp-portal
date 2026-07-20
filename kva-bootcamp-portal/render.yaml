@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: kva-bootcamp-2026-portal
+    env: static
+    buildCommand: npm install && npm run build
+    publishPath: ./dist
+    headers:
+      - key: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - path: /*
+        destination: /index.html
