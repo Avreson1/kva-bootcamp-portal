@@ -10,9 +10,9 @@ export const App: React.FC = () => {
   const [pinInput, setPinInput] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Access PINs
-  const STAFF_PIN = '1234';
-  const MONITOR_PIN = '8888';
+  // Pull PINs from environment variables (falls back to defaults if not set)
+  const STAFF_PIN = import.meta.env.VITE_STAFF_PIN || '1234';
+  const MONITOR_PIN = import.meta.env.VITE_MONITOR_PIN || '8888';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
                 maxLength={4}
                 value={pinInput}
                 onChange={e => setPinInput(e.target.value)}
-                placeholder="Enter 4-Digit Access PIN"
+                placeholder="Enter Access PIN"
                 className="w-full text-center text-2xl tracking-widest bg-slate-900 border border-slate-700 rounded-lg py-3 text-white focus:outline-none focus:border-emerald-500"
               />
               {errorMsg && <p className="text-xs text-red-400 text-center">{errorMsg}</p>}
@@ -79,8 +79,14 @@ export const App: React.FC = () => {
             </form>
 
             <div className="border-t border-slate-700/60 pt-4 text-xs text-slate-500 space-y-1">
-              <p className="flex items-center space-x-1"><Shield className="w-3.5 h-3.5 text-slate-400 inline" /> <span><b>Staff Access Key (1234):</b> Registration Desk</span></p>
-              <p className="flex items-center space-x-1"><Shield className="w-3.5 h-3.5 text-slate-400 inline" /> <span><b>Monitor Access Key (8888):</b> Overview & Exports</span></p>
+              <p className="flex items-center space-x-1">
+                <Shield className="w-3.5 h-3.5 text-slate-400 inline" /> 
+                <span><b>Staff Access:</b> Registration Desk</span>
+              </p>
+              <p className="flex items-center space-x-1">
+                <Shield className="w-3.5 h-3.5 text-slate-400 inline" /> 
+                <span><b>Monitor Access:</b> Overview & Exports</span>
+              </p>
             </div>
           </div>
         ) : role === 'ROLE_STAFF' ? (
